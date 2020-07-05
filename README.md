@@ -1,5 +1,5 @@
 # Reconme
-`this tool make alot of effort for bughunters`
+`this tool save alot of effort for bughunters`
 ---
 #tools
 > assetfinder
