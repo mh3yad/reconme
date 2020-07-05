@@ -1,0 +1,37 @@
+#!/bin/sh
+
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+reset=`tput sgr0`
+
+echo "${green} assetfinder  ${1} \n"
+mkdir programs/${1}
+assetfinder --subs-only  ${1} |tee programs/${1}/domains
+
+echo "${green} nmap  ${1} \n"
+nmap -Pn -iL programs/${1}/domains -oN programs/${1}/scann
+
+
+echo "\n ${yellow} httpprobe ${1} \n"
+cat programs/${1}/domains | httpprobe |tee programs/${1}/alive
+rm  programs/${1}/domains
+cat programs/${1}/alive |sort -u |tee programs/${1}/live
+rm  programs/${1}/alive
+
+echo "\n ${red} waybackurl \n"
+cat programs/${1}/live |waybackurls |tee programs/${1}/arch
+cat programs/${1}/arch | sort -u |tee programs/${1}/url1
+rm  programs/${1}/arch
+
+cat programs/${1}/url1 | hakcheckurl |grep -v 404 |cut -d " " -f2  |tee programs/${1}/url
+rm  programs/${1}/url1
+
+echo "\n ${blue} xsshunter  \n"
+cd programs/${1}/
+xss.py
+
+echo "\n ${blue} favicon  \n"
+cat live |favicon --shodan
+
