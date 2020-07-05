@@ -12,5 +12,6 @@
 # Usage
 ./mh3yad domain_name
 
-![alt text](1111.png "active direcorty")
-[logo]: 1111.png
+![alt text](11111.png "active direcorty")
+[logo]: 11111.png
+
